@@ -161,6 +161,7 @@
     color: #000; font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
     text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle;
   }
+  .lb-name.unnamed { color: var(--text-muted); font-style: italic; }
 
   /* ─── MONTHLY SCORES ─── */
   .month-controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
@@ -264,7 +265,7 @@
   <div class="stats-row">
     <div class="stat-card">
       <div class="s-label">Participants</div>
-      <div class="s-value" id="stat-count">33</div>
+      <div class="s-value" id="stat-count">—</div>
       <div class="s-sub">Executive Directors</div>
     </div>
     <div class="stat-card">
@@ -274,8 +275,8 @@
     </div>
     <div class="stat-card">
       <div class="s-label">Top Score</div>
-      <div class="s-value" id="stat-top">52</div>
-      <div class="s-sub" id="stat-top-name">Jasmyn / Mallory / Susan / Jennifer</div>
+      <div class="s-value" id="stat-top">—</div>
+      <div class="s-sub" id="stat-top-name">—</div>
     </div>
     <div class="stat-card">
       <div class="s-label">Avg Points</div>
@@ -284,8 +285,8 @@
     </div>
     <div class="stat-card">
       <div class="s-label">Months Remaining</div>
-      <div class="s-value">9</div>
-      <div class="s-sub">May → December</div>
+      <div class="s-value">7</div>
+      <div class="s-sub">June → December</div>
     </div>
   </div>
 
@@ -308,7 +309,7 @@
       <option value="February">February</option>
       <option value="March">March</option>
       <option value="April">April</option>
-      <option value="April">May</option>
+      <option value="May">May</option>
     </select>
     <input type="text" class="search-box" style="width:220px" placeholder="🔍  Filter community..." oninput="filterMonthly(this.value)" />
     <select class="select-styled" id="month-sort-select" onchange="renderMonthly()">
@@ -347,40 +348,46 @@
 // ── DATA ──────────────────────────────────────────────────────
 const MAGIC = 264;
 
+// Leaderboard synced 1:1 with Sycman_2026.xlsx.
+// "needed" is computed automatically as MAGIC - current, so it is always
+// consistent with the Magic Number (this fixes the mismatched values that
+// were hardcoded in the source spreadsheet).
 const leaderboard = [
-  { name:'Jasmyn',        current:130, needed:134 },
-  { name:'Mallory',       current:128, needed:136 },
-  { name:'Susan',         current:128, needed:136 },
-  { name:'Stephen',       current:89, needed:175 },
-  { name:'Jennifer',      current:109, needed:155 },
-  { name:'Caleb',         current:96, needed:168 },
-  { name:'Laura Blakeman',current:79, needed:185 },
-  { name:'Nathalie',      current:47, needed:216 },
-  { name:'Nick',          current:106, needed:158 },
-  { name:'Deb',           current:69, needed:217 },
-  { name:'Kaley',         current:39, needed:225 },
-  { name:'Robert',        current:49, needed:218 },
-  { name:'Melody',        current:85, needed:221 },
-  { name:'Melissa',       current:118, needed:220 },
-  { name:'Ron',           current:82, needed:219 },
-  { name:'Lisa',          current:74, needed:190 },
-  { name:'Shelly',        current:120, needed:144 },
-  { name:'Katie',         current:93, needed:171 },
-  { name:'Jade',          current:46, needed:218 },
-  { name:'Daniel',        current:65, needed:199 },
-  { name:'Terrance',      current:74, needed:190 },
-  { name:'Dolores',       current:38, needed:226 },
-  { name:'Marcus',        current:48, needed:216 },
-  { name:'JoEllen',       current:38, needed:228 },
-  { name:'Kris',          current:26, needed:238 },
-  { name:'Javier',        current:32, needed:232 },
-  { name:'Dean O\'Neal',  current:66, needed:128 },
-  { name:'Julie',         current:43, needed:221 },
-  { name:'Glenda',        current:23, needed:241 },
-  { name:'Lorenzo',       current:17,  needed:247 },
-  { name:'Wil',           current:16,  needed:248 },
-  { name:'Carol',         current:22,  needed:242 },
-];
+  { name:'Lisa',           current:74  },
+  { name:'Jasmyn',         current:130 },
+  { name:'Mallory',        current:128 },
+  { name:'Tina',           current:43  },
+  { name:'Shelly',         current:120 },
+  { name:'Jennifer',       current:109 },
+  { name:'Marcus',         current:48  },
+  { name:'Caleb',          current:96  },
+  { name:'Nick',           current:106 },
+  { name:'Dolores',        current:38  },
+  { name:'Glenda',         current:23  },
+  { name:'Daniel',         current:65  },
+  { name:"Dean O'Neal",    current:66  },
+  { name:'Carol',          current:22  },
+  { name:'Katie',          current:93  },
+  { name:'Laura Blakeman', current:79  },
+  { name:'JoEllen',        current:36  },
+  { name:'Kaley',          current:39  },
+  { name:'(sin nombre)',   current:9, unnamed:true },
+  { name:'Jade',           current:46  },
+  { name:'Susan',          current:128 },
+  { name:'Stephen',        current:89  },
+  { name:'Dean (2)',       current:29  },
+  { name:'Kris',           current:26  },
+  { name:'Terrance',       current:74  },
+  { name:'Javier',         current:32  },
+  { name:'Wil',            current:16  },
+  { name:'Julie',          current:43  },
+  { name:'Nathalie',       current:47  },
+  { name:'Deb',            current:69  },
+  { name:'Robert',         current:49  },
+  { name:'Ron',            current:82  },
+  { name:'Melissa',        current:118 },
+  { name:'Melody',         current:85  },
+].map(d => ({ ...d, needed: Math.max(0, MAGIC - d.current) }));
 
 const properties = [
   'Legacy Reserve Fritz Farm','Legacy Trussville','Legacy Ridge at Buckhead',
@@ -456,9 +463,16 @@ function renderLB() {
   else if (lbSort === 'name')   data.sort((a,b) => a.name.localeCompare(b.name));
   else if (lbSort === 'needed') data.sort((a,b) => a.needed - b.needed);
 
+  // Dynamic stats
   const avg = Math.round(leaderboard.reduce((s,d) => s+d.current, 0) / leaderboard.length);
   document.getElementById('stat-avg').textContent = avg;
   document.getElementById('stat-count').textContent = leaderboard.length;
+
+  // Top score computed dynamically (handles ties automatically)
+  const maxPts = Math.max(...leaderboard.map(d => d.current));
+  const topNames = leaderboard.filter(d => d.current === maxPts).map(d => d.name);
+  document.getElementById('stat-top').textContent = maxPts;
+  document.getElementById('stat-top-name').textContent = topNames.join(' / ');
 
   const grid = document.getElementById('lb-grid');
   grid.innerHTML = data.map((d) => {
@@ -468,9 +482,10 @@ function renderLB() {
     const isQual = d.current >= MAGIC;
     const barClass = isQual ? 'done' : 'in-progress';
     const ptsClass = d.current < 0 ? 'negative' : '';
+    const nameClass = d.unnamed ? 'lb-name unnamed' : 'lb-name';
     return `<div class="lb-row ${isQual?'qualifier':''}">
       <div class="rank ${rankClass}">${rank}</div>
-      <div class="lb-name">${d.name}${isQual?'<span class="qualifier-tag">Qualified</span>':''}</div>
+      <div class="${nameClass}">${d.name}${isQual?'<span class="qualifier-tag">Qualified</span>':''}</div>
       <div class="lb-pts ${ptsClass}">${d.current}</div>
       <div class="lb-needed"><span class="val">${d.needed > 0 ? d.needed+' needed' : '✓ Done'}</span></div>
       <div>
