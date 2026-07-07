@@ -275,7 +275,7 @@
     <div class="stat-card">
       <div class="s-label">Top Score</div>
       <div class="s-value" id="stat-top">52</div>
-      <div class="s-sub" id="stat-top-name">Jasmyn / Mallory / Susan / Stephen</div>
+      <div class="s-sub" id="stat-top-name">Jasmyn / Mallory / Susan / Jennifer</div>
     </div>
     <div class="stat-card">
       <div class="s-label">Avg Points</div>
@@ -284,8 +284,8 @@
     </div>
     <div class="stat-card">
       <div class="s-label">Months Remaining</div>
-      <div class="s-value">10</div>
-      <div class="s-sub">March → December</div>
+      <div class="s-value">9</div>
+      <div class="s-sub">May → December</div>
     </div>
   </div>
 
@@ -306,6 +306,9 @@
       <option value="all">All Months</option>
       <option value="January">January</option>
       <option value="February">February</option>
+      <option value="March">March</option>
+      <option value="April">April</option>
+      <option value="April">May</option>
     </select>
     <input type="text" class="search-box" style="width:220px" placeholder="🔍  Filter community..." oninput="filterMonthly(this.value)" />
     <select class="select-styled" id="month-sort-select" onchange="renderMonthly()">
@@ -345,38 +348,38 @@
 const MAGIC = 264;
 
 const leaderboard = [
-  { name:'Jasmyn',        current:78, needed:186 },
-  { name:'Mallory',       current:78, needed:186 },
-  { name:'Susan',         current:76, needed:188 },
-  { name:'Stephen',       current:63, needed:201 },
-  { name:'Jennifer',      current:76, needed:188 },
-  { name:'Calen',         current:69, needed:195 },
-  { name:'Laura Blakeman',current:69, needed:195 },
-  { name:'Nathalie',      current:44, needed:216 },
-  { name:'Nick',          current:54, needed:210 },
-  { name:'Deb',           current:52, needed:217 },
-  { name:'Kaley',         current:30, needed:234 },
-  { name:'Robert',        current:35, needed:218 },
-  { name:'Melody',        current:59, needed:221 },
-  { name:'Melissa',       current:71, needed:220 },
-  { name:'Ron',           current:68, needed:219 },
-  { name:'Lisa',          current:50, needed:214 },
-  { name:'Shelly',        current:73, needed:191 },
-  { name:'Katie',         current:47, needed:217 },
-  { name:'Jade',          current:38, needed:226 },
-  { name:'Daniel',        current:33, needed:231 },
-  { name:'Terrance',      current:40, needed:224 },
-  { name:'Dolores',       current:29, needed:235 },
-  { name:'Marcus',        current:36, needed:228 },
-  { name:'JoEllen',       current:22, needed:242 },
-  { name:'Kris',          current:18, needed:246 },
-  { name:'Javier',        current:20, needed:244 },
-  { name:'Dean O\'Neal',  current:23, needed:241 },
-  { name:'Julie',         current:37, needed:227 },
-  { name:'Glenda',        current:14, needed:250 },
+  { name:'Jasmyn',        current:130, needed:134 },
+  { name:'Mallory',       current:128, needed:136 },
+  { name:'Susan',         current:128, needed:136 },
+  { name:'Stephen',       current:89, needed:175 },
+  { name:'Jennifer',      current:109, needed:155 },
+  { name:'Caleb',         current:96, needed:168 },
+  { name:'Laura Blakeman',current:79, needed:185 },
+  { name:'Nathalie',      current:47, needed:216 },
+  { name:'Nick',          current:106, needed:158 },
+  { name:'Deb',           current:69, needed:217 },
+  { name:'Kaley',         current:39, needed:225 },
+  { name:'Robert',        current:49, needed:218 },
+  { name:'Melody',        current:85, needed:221 },
+  { name:'Melissa',       current:118, needed:220 },
+  { name:'Ron',           current:82, needed:219 },
+  { name:'Lisa',          current:74, needed:190 },
+  { name:'Shelly',        current:120, needed:144 },
+  { name:'Katie',         current:93, needed:171 },
+  { name:'Jade',          current:46, needed:218 },
+  { name:'Daniel',        current:65, needed:199 },
+  { name:'Terrance',      current:74, needed:190 },
+  { name:'Dolores',       current:38, needed:226 },
+  { name:'Marcus',        current:48, needed:216 },
+  { name:'JoEllen',       current:38, needed:228 },
+  { name:'Kris',          current:26, needed:238 },
+  { name:'Javier',        current:32, needed:232 },
+  { name:'Dean O\'Neal',  current:66, needed:128 },
+  { name:'Julie',         current:43, needed:221 },
+  { name:'Glenda',        current:23, needed:241 },
   { name:'Lorenzo',       current:17,  needed:247 },
-  { name:'Wil',           current:10,  needed:254 },
-  { name:'Carol',         current:10,  needed:254 },
+  { name:'Wil',           current:16,  needed:248 },
+  { name:'Carol',         current:22,  needed:242 },
 ];
 
 const properties = [
@@ -396,6 +399,8 @@ const monthlyData = {
   'January':  [26,24,8,13,10,0,24,21,21,11,0,8,0,26,0,26,5,3,15,26,0,7,15,24,0,15,3,16,0,13,10,21,19,26],
   'February': [26,26,7,10,26,5,26,26,26,10,15,7,23,26,2,26,7,21,7,26,7,15,7,24,13,15,10,20,7,21,18,26,26,7],
   'March': [26,19,7,10,18,5,26,3,26,15,3,5,15,24,5,11,2,23,7,26,10,18,10,21,10,0,24,8,3,18,7,21,26,26],
+  'April': [26,16,7,21,26,7,26,5,21,7,8,7,8,26,2,26,2,23,2,26,7,10,8,10,19,7,3,3,3,17,7,3,21,21],
+  'May': [24,11,7,11,26,5,7,19,26,5,0,5,0,26,0,0,7,23,7,26,5,24,3,0,24,2,3,0,3,0,7,11,26,5],
 };
 
 const months = Object.keys(monthlyData);
